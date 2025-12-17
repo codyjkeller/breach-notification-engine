@@ -1,0 +1,44 @@
+{
+  "GDPR": {
+    "jurisdiction": "EU",
+    "deadline_hours": 72,
+    "trigger": "awareness",
+    "severity_threshold": "medium",
+    "note": "Notification to Supervisory Authority"
+  },
+  "HIPAA_HITECH": {
+    "jurisdiction": "USA (Federal)",
+    "deadline_days": 60,
+    "trigger": "discovery",
+    "severity_threshold": "low",
+    "note": "Notification to HHS OCR"
+  },
+  "SEC_Material_Breach": {
+    "jurisdiction": "USA (Public Companies)",
+    "deadline_business_days": 4,
+    "trigger": "determination_of_materiality",
+    "severity_threshold": "high",
+    "note": "File Form 8-K (Item 1.05)"
+  },
+  "CCPA_CPRA": {
+    "jurisdiction": "California",
+    "deadline_desc": "Most expedient time possible (without unreasonable delay)",
+    "trigger": "discovery",
+    "severity_threshold": "medium",
+    "note": "Per CA Civil Code 1798.82"
+  },
+  "GLBA": {
+    "jurisdiction": "USA (Financial)",
+    "deadline_desc": "As soon as possible",
+    "trigger": "determination_of_misuse",
+    "severity_threshold": "medium",
+    "note": "Interagency Guidance on Response Programs"
+  },
+  "SOX_409": {
+    "jurisdiction": "USA (Public Companies)",
+    "deadline_desc": "Rapid and current basis",
+    "trigger": "material_change",
+    "severity_threshold": "high",
+    "note": "Real-time issuer disclosure"
+  }
+}
