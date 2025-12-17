@@ -3,26 +3,45 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 
 # 1. Load Data
-df = pd.read_csv('data/fines.csv')
-print("📊 Historical Data Loaded:")
-print(df.head())
+try:
+    df = pd.read_csv('data/fines.csv')
+    print(f"📊 Historical Data Loaded: {len(df)} records (2015-2025)")
+except FileNotFoundError:
+    print("❌ Error: 'data/fines.csv' not found.")
+    exit()
 
-# 2. Prepare Features (X) and Target (y)
-# We use 'records_exposed' and 'revenue' to predict 'fine_amount'
+# 2. Train Model (X = Records + Revenue, y = Fine)
 X = df[['records_exposed', 'revenue_millions']]
 y = df['fine_amount']
 
-# 3. Train Model
 model = LinearRegression()
 model.fit(X, y)
 
-# 4. Predict Function
 def predict_fine(records, revenue):
+    # The model predicts the fine based on inputs
     prediction = model.predict([[records, revenue]])
-    return f"${prediction[0]:,.2f}"
+    
+    # Logic: Fines can't be negative (Linear Regression artifact)
+    estimated_fine = max(0, prediction[0])
+    
+    return estimated_fine
 
 if __name__ == "__main__":
-    # Scenario: 75,000 records exposed, Company Revenue $200M
-    est_fine = predict_fine(75000, 200)
-    print(f"\n🔮 PREDICTION:")
-    print(f"Estimated Regulatory Fine: {est_fine}")
+    print("-" * 40)
+    print("🔮 REGULATORY FINE PREDICTOR (v2.0)")
+    print("-" * 40)
+    
+    # Interactive Input
+    try:
+        in_records = int(input("Enter Records Exposed (e.g. 50000): "))
+        in_revenue = int(input("Enter Company Revenue (Millions): "))
+        
+        est_fine = predict_fine(in_records, in_revenue)
+        
+        print(f"\n🏢 SCENARIO ANALYZED:")
+        print(f"   • Records Lost: {in_records:,}")
+        print(f"   • Annual Revenue: ${in_revenue:,}M")
+        print(f"\n💸 ESTIMATED LIABILITY: ${est_fine:,.2f}")
+        
+    except ValueError:
+        print("❌ Invalid input. Please enter numbers only.")
