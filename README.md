@@ -1,17 +1,12 @@
-# 📈 Regulatory Fine Predictor
+# ⚖️ Breach Notification Engine
 
-![Python](https://img.shields.io/badge/Python-Data%20Science-blue)
-![Scikit-Learn](https://img.shields.io/badge/ML-Linear%20Regression-orange)
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Compliance](https://img.shields.io/badge/Compliance-GDPR%20%7C%20HIPAA-green)
 
-**Data Science for GRC.**
-This tool utilizes linear regression on historical enforcement data to forecast potential regulatory fines based on breach magnitude (records exposed) and company size.
+**A programmable logic engine for Incident Response.**
+This tool calculates statutory notification deadlines based on incident parameters (discovery date, jurisdiction, severity), replacing manual legal lookup tables.
 
-## 🛠️ How it Works
-1.  **Ingest:** Loads historical fine data (`fines.csv`).
-2.  **Train:** Fits a Linear Regression model correlating `records_exposed` and `revenue` to `fine_amount`.
-3.  **Predict:** Outputs estimated financial liability for new scenarios.
-
-## 🚀 Quick Start
-```bash
-pip install -r requirements.txt
-python src/predict.py
+## ⚡ Usage
+```python
+# Check deadline for a GDPR breach discovered on 2024-01-01
+python src/calculator.py
