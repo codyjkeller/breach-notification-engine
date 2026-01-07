@@ -1,0 +1,267 @@
+{
+  "meta": {
+    "version": "2026.1",
+    "disclaimer": "For educational/demo purposes only. Consult legal counsel for production use."
+  },
+  "regulations": [
+    {
+      "jurisdiction": "EU",
+      "name": "GDPR (General Data Protection Regulation)",
+      "trigger_data": ["email", "name", "ip_address", "health", "financial", "political", "biometric"],
+      "deadline_hours": 72,
+      "authority": "Data Protection Commission (DPC)",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": "high_risk_only"
+    },
+    {
+      "jurisdiction": "Puerto Rico",
+      "name": "Puerto Rico Data Breach Notification Act",
+      "trigger_data": ["tax_id", "financial"],
+      "deadline_hours": 240,
+      "deadline_description": "10 Days (Strictest in US)",
+      "authority": "Department of Consumer Affairs",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Vermont",
+      "name": "Vermont Security Breach Notice Act",
+      "trigger_data": ["ssn", "financial", "biometric"],
+      "deadline_hours": 336,
+      "deadline_description": "14 Days (to Attorney General)",
+      "authority": "Vermont Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Florida",
+      "name": "Florida Information Protection Act (FIPA)",
+      "trigger_data": ["ssn", "driver_license", "medical", "financial"],
+      "deadline_hours": 720,
+      "deadline_description": "30 Days",
+      "authority": "Florida Department of Legal Affairs",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Colorado",
+      "name": "Colorado Consumer Protection Act",
+      "trigger_data": ["ssn", "driver_license", "biometric", "medical"],
+      "deadline_hours": 720,
+      "deadline_description": "30 Days",
+      "authority": "Colorado Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Washington",
+      "name": "Washington Data Breach Notification Law",
+      "trigger_data": ["ssn", "driver_license", "financial"],
+      "deadline_hours": 720,
+      "deadline_description": "30 Days",
+      "authority": "Washington Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Maine",
+      "name": "Notice of Risk to Personal Data Act",
+      "trigger_data": ["ssn", "driver_license", "financial"],
+      "deadline_hours": 720,
+      "deadline_description": "30 Days (roughly)",
+      "authority": "Maine Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Alabama",
+      "name": "Alabama Data Breach Notification Act",
+      "trigger_data": ["ssn", "medical", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Alabama Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Arizona",
+      "name": "Arizona Notification of Breach of Security System",
+      "trigger_data": ["ssn", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Arizona Attorney General",
+      "requires_regulator_notice": false,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Maryland",
+      "name": "Maryland Personal Information Protection Act",
+      "trigger_data": ["ssn", "tax_id", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Maryland Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "New Mexico",
+      "name": "Data Breach Notification Act",
+      "trigger_data": ["ssn", "biometric", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "New Mexico Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Ohio",
+      "name": "Ohio Security Breach Notification Act",
+      "trigger_data": ["ssn", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Ohio Attorney General",
+      "requires_regulator_notice": false,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Oregon",
+      "name": "Oregon Consumer Information Protection Act",
+      "trigger_data": ["ssn", "passport", "biometric"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Oregon Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Rhode Island",
+      "name": "Rhode Island Identity Theft Protection Act",
+      "trigger_data": ["ssn", "financial", "medical"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Rhode Island Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Tennessee",
+      "name": "Tennessee Data Breach Notification Statute",
+      "trigger_data": ["ssn", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Tennessee Attorney General",
+      "requires_regulator_notice": false,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Wisconsin",
+      "name": "Wisconsin Data Breach Notification Law",
+      "trigger_data": ["ssn", "biometric", "financial"],
+      "deadline_hours": 1080,
+      "deadline_description": "45 Days",
+      "authority": "Dept of Agriculture, Trade & Consumer Protection",
+      "requires_regulator_notice": false,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Connecticut",
+      "name": "Connecticut Data Privacy Act",
+      "trigger_data": ["ssn", "tax_id", "biometric"],
+      "deadline_hours": 1440,
+      "deadline_description": "60 Days",
+      "authority": "Connecticut Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Delaware",
+      "name": "Delaware Computer Security Breaches Act",
+      "trigger_data": ["ssn", "passport", "medical"],
+      "deadline_hours": 1440,
+      "deadline_description": "60 Days",
+      "authority": "Delaware Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Louisiana",
+      "name": "Database Security Breach Notification Law",
+      "trigger_data": ["ssn", "passport", "biometric"],
+      "deadline_hours": 1440,
+      "deadline_description": "60 Days",
+      "authority": "Louisiana Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "South Dakota",
+      "name": "South Dakota Breach Notification Law",
+      "trigger_data": ["ssn", "health", "financial"],
+      "deadline_hours": 1440,
+      "deadline_description": "60 Days",
+      "authority": "South Dakota Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Texas",
+      "name": "Texas Identity Theft Enforcement and Protection Act",
+      "trigger_data": ["ssn", "medical", "financial"],
+      "deadline_hours": 1440,
+      "deadline_description": "60 Days",
+      "authority": "Texas Attorney General",
+      "requires_regulator_notice": "if_250+_residents",
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "California",
+      "name": "CCPA / CPRA (Civil Code 1798.82)",
+      "trigger_data": ["ssn", "driver_license", "financial", "biometric", "medical"],
+      "deadline_hours": 0, 
+      "deadline_description": "Most expedient time possible (without unreasonable delay)",
+      "authority": "California Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "New York",
+      "name": "NY SHIELD Act",
+      "trigger_data": ["ssn", "driver_license", "biometric", "account_password"],
+      "deadline_hours": 0,
+      "deadline_description": "Most expedient time possible",
+      "authority": "NY Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Illinois",
+      "name": "Personal Information Protection Act",
+      "trigger_data": ["ssn", "driver_license", "medical", "biometric"],
+      "deadline_hours": 0,
+      "deadline_description": "Most expedient time possible",
+      "authority": "Illinois Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Massachusetts",
+      "name": "MA Data Breach Notification Law (201 CMR 17.00)",
+      "trigger_data": ["ssn", "driver_license", "financial"],
+      "deadline_hours": 0,
+      "deadline_description": "Without unreasonable delay",
+      "authority": "MA Attorney General & Office of Consumer Affairs",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    },
+    {
+      "jurisdiction": "Standard US State (Generic)",
+      "name": "Generic State Breach Statute (Alaska, Arkansas, DC, Georgia, Hawaii, Idaho, Indiana, Iowa, Kansas, Kentucky, Michigan, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, North Carolina, North Dakota, Oklahoma, Pennsylvania, South Carolina, Utah, Virginia, West Virginia, Wyoming)",
+      "trigger_data": ["ssn", "driver_license", "financial"],
+      "deadline_hours": 0,
+      "deadline_description": "Without unreasonable delay (Standard)",
+      "authority": "State Attorney General",
+      "requires_regulator_notice": true,
+      "requires_consumer_notice": true
+    }
+  ]
+}
