@@ -1,38 +1,39 @@
-# 📉 Regulatory Fine Predictor
+# 🚨 Automated Breach Notification Engine
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Scikit-Learn](https://img.shields.io/badge/ML-Linear%20Regression-orange)
-![Data](https://img.shields.io/badge/Data-2015--2025-green)
+![Compliance](https://img.shields.io/badge/Compliance-GDPR_&_50_States-red)
+![Automation](https://img.shields.io/badge/Automation-Jinja2_Templates-green)
 
-**Data-Driven Risk Intelligence.**
-This tool utilizes linear regression modeling on a curated dataset of historical data breaches (2015–2025) to forecast potential regulatory fines. It helps CISOs and Risk Officers quantify financial exposure based on breach magnitude and company revenue.
+**A programmable legal orchestrator that calculates regulatory deadlines and auto-drafts breach notifications based on jurisdiction (GDPR, CCPA, NY SHIELD, etc.).**
 
-## 📊 Dataset Overview
-The model is trained on `data/fines.csv`, which includes **35 verified enforcement actions** spanning:
-* **Regulations:** GDPR, HIPAA, CCPA, SEC, FTC, NYDFS.
-* **Sectors:** Tech, Finance, Healthcare, Retail.
-* **Timeline:** 2015 (Pre-GDPR) to 2025 (Projected AI Act enforcement).
+Managing a data breach is a race against the clock. Different laws trigger different deadlines:
+* **GDPR:** 72 hours.
+* **Puerto Rico:** 10 days.
+* **Florida:** 30 days.
+* **California:** "Without unreasonable delay."
+
+This engine eliminates the guesswork. It ingests an incident payload, queries a JSON database of **50+ US State & International laws**, and instantly generates the required legal artifacts.
+
+## ✨ Key Features
+
+* **🌎 Multi-Jurisdictional Logic:** Includes a `regulations.json` database covering **GDPR** and **all 50 US States** (plus DC/Puerto Rico).
+* **⏳ "Doomsday Clock" Calculator:** Automatically calculates the exact date/time you must notify regulators based on the incident timestamp.
+* **📝 Auto-Drafting:** Uses **Jinja2** templates to generate formatted HTML/PDF notification letters tailored to the specific regulator (e.g., "To the California Attorney General").
+* **🧠 Context-Aware:** Distinguishes between "Consumer Notice" vs. "Regulator Notice" and filters based on trigger data (e.g., "Medical" data triggers HIPAA/State Health laws; "SSN" triggers State AGs).
 
 ## 🛠️ Architecture
-1.  **Ingestion:** Loads historical fine data (`fines.csv`).
-2.  **Training:** Fits a Linear Regression model correlating `records_exposed` and `annual_revenue` to `fine_amount`.
-3.  **Prediction:** Interactive CLI allows users to input hypothetical breach scenarios to estimate liability.
 
-## 🚀 Quick Start
-
-### 1. Installation
-```bash
-pip install pandas scikit-learn numpy
-
-python src/predict.py
-
-🔮 REGULATORY FINE PREDICTOR (v2.0)
-----------------------------------------
-Enter Records Exposed (e.g. 50000): 75000
-Enter Company Revenue (Millions): 200
-
-🏢 SCENARIO ANALYZED:
-   • Records Lost: 75,000
-   • Annual Revenue: $200M
-
-💸 ESTIMATED LIABILITY: $1,450,200.00
+```mermaid
+graph TD
+    A[Incident Payload] --> B{Compliance Engine}
+    C[Regulations.json] --> B
+    
+    B -->|Match Location| D{Determine Jurisdiction}
+    B -->|Match Data Type| E{Determine Triggers}
+    
+    D & E --> F[Calculate Deadlines]
+    F --> G[Generate CLI Report]
+    
+    G --> H{Drafting Engine}
+    H -->|Load Template| I[Jinja2 HTML]
+    I --> J[Final Notification Letter]
