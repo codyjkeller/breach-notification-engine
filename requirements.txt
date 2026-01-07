@@ -1,2 +1,5 @@
 rich
 jinja2
+pytest        # Standard for unit testing
+black         # Standard for code formatting
+flake8        # Standard for linting
