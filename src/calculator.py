@@ -9,7 +9,7 @@ def load_rules(path="data/rules.json"):
         with open(path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        return {}
+        raise FileNotFoundError(f"CRITICAL: Configuration file not found at {path}. Check deployment.")
 
 # --- 2. CORE LOGIC (Returns Data, doesn't print) ---
 def calculate_deadline_data(framework, discovery_date_str):
