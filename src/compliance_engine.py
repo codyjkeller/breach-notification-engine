@@ -6,100 +6,84 @@ from rich.table import Table
 
 console = Console()
 
-# 🇺🇸 States that follow the "Standard" Notification Rule (Without Unreasonable Delay)
-# This maps specific input locations to the "Generic State Breach Statute" in your JSON.
-STANDARD_US_STATES = [
-    "Alaska", "Arkansas", "District of Columbia", "Georgia", "Hawaii", 
-    "Idaho", "Indiana", "Iowa", "Kansas", "Kentucky", "Michigan", 
-    "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", 
-    "Nevada", "New Hampshire", "New Jersey", "North Carolina", 
-    "North Dakota", "Oklahoma", "Pennsylvania", "South Carolina", 
-    "Utah", "Virginia", "West Virginia", "Wyoming"
-]
-
 class ComplianceEngine:
     def __init__(self, regulations_path="config/regulations.json"):
         self.regulations = self._load_regulations(regulations_path)
 
     def _load_regulations(self, path):
-        """Safely loads the JSON database from multiple potential locations."""
+        """Safely loads the JSON database."""
+        # Handle running from root vs src/
         if not os.path.exists(path):
-            # Fallback for running from root
-            path = "config/regulations.json"
-            if not os.path.exists(path):
-                 # Fallback for running inside src/
-                path = "../config/regulations.json"
+            fallback = "../config/regulations.json"
+            if os.path.exists(fallback):
+                path = fallback
         
         try:
             with open(path, 'r') as f:
                 data = json.load(f)
                 return data['regulations']
         except FileNotFoundError:
-            console.print(f"[red]Error: Could not find regulations.json at {path}[/red]")
+            console.print(f"[bold red]CRITICAL ERROR: Could not find regulations database at {path}[/bold red]")
             return []
 
     def assess_incident(self, incident):
         """
         Matches incident data & location to specific laws.
-        Returns a list of 'Obligations'.
+        Now purely dynamic—no hardcoded state lists.
         """
         obligations = []
         affected_locations = incident.get('affected_locations', [])
         stolen_data = incident.get('data_types', [])
-        incident_time = datetime.fromisoformat(incident['timestamp'])
+        
+        # Parse timestamp safely
+        try:
+            incident_time = datetime.fromisoformat(incident['timestamp'])
+        except ValueError:
+            incident_time = datetime.now()
 
-        console.print(f"\n🔎 Analyzing Incident: [bold]{incident['id']}[/bold]")
-        console.print(f"   • Data Types: {', '.join(stolen_data)}")
-        console.print(f"   • Locations: {', '.join(affected_locations)}\n")
+        console.print(f"\n🔎 Analyzing Incident: [bold cyan]{incident.get('id', 'Unknown')}[/bold cyan]")
+        console.print(f"   • Data Types: [dim]{', '.join(stolen_data)}[/dim]")
+        console.print(f"   • Locations:  [dim]{', '.join(affected_locations)}[/dim]\n")
 
         for reg in self.regulations:
             is_match = False
 
             # 1. Jurisdiction Match Logic
-            # Direct Match (e.g., "California", "EU")
+            # Since regulations.json now lists every state explicitly, we just check direct membership.
             if reg['jurisdiction'] in affected_locations:
                 is_match = True
-            
-            # Global Match (e.g., if you had a "Global" policy)
-            elif reg['jurisdiction'] == "Global":
+            elif reg['jurisdiction'] == "Global": # Catch-all for EU/International if needed
                 is_match = True
-
-            # Grouped/Standard State Match
-            elif reg['name'].startswith("Generic State Breach Statute"):
-                # Check if any of the affected locations are in our Standard list
-                # AND haven't been caught by a specific rule yet.
-                for loc in affected_locations:
-                    if loc in STANDARD_US_STATES:
-                        is_match = True
-                        # We tag the specific state so the report is accurate
-                        reg['jurisdiction'] = loc 
 
             if is_match:
                 # 2. Data Match (Does the law care about this data?)
-                relevant_data = set(stolen_data).intersection(set(reg['trigger_data']))
+                reg_triggers = set(reg.get('trigger_data', []))
+                stolen_set = set(stolen_data)
                 
-                # Some laws trigger on "All" data or specific fields
-                if relevant_data or "all" in reg.get('trigger_data', []):
+                # Check intersection OR "all" wildcard
+                relevant_data = stolen_set.intersection(reg_triggers)
+                if relevant_data or "all" in reg_triggers:
                     
                     # 3. Calculate Deadline
+                    deadline_str = reg.get('deadline_description', "Asap")
+                    is_urgent = False
+                    
                     if reg.get('deadline_hours', 0) > 0:
                         deadline_dt = incident_time + timedelta(hours=reg['deadline_hours'])
                         deadline_str = deadline_dt.strftime("%Y-%m-%d %H:%M")
                         
-                        # Determine Urgency
+                        # Determine Urgency (< 24h remaining)
                         time_remaining = deadline_dt - datetime.now()
-                        is_urgent = time_remaining.total_seconds() < 86400 # Less than 24h
-                    else:
-                        deadline_str = reg.get('deadline_description', "Asap")
-                        is_urgent = True # "ASAP" is always urgent
+                        if time_remaining.total_seconds() < 86400:
+                            is_urgent = True
 
                     obligations.append({
                         "regulation": reg['name'],
-                        "jurisdiction": reg['jurisdiction'], # Uses the specific state name
+                        "jurisdiction": reg['jurisdiction'],
                         "regulator": reg['authority'],
                         "deadline": deadline_str,
                         "urgent": is_urgent,
-                        "triggered_by": list(relevant_data)
+                        "triggered_by": list(relevant_data) if relevant_data else ["all"]
                     })
 
         return obligations
@@ -111,9 +95,9 @@ class ComplianceEngine:
 
         table = Table(title="⚖️  Legal Breach Obligations", header_style="bold magenta")
         table.add_column("Jurisdiction", style="cyan")
-        table.add_column("Regulator", style="white")
-        table.add_column("Notification Deadline", style="bold red")
-        table.add_column("Trigger Data", style="dim")
+        table.add_column("Regulation", style="dim")
+        table.add_column("Deadline", style="bold red")
+        table.add_column("Trigger Data", style="white")
 
         for ob in obligations:
             deadline_display = ob['deadline']
@@ -122,7 +106,7 @@ class ComplianceEngine:
             
             table.add_row(
                 ob['jurisdiction'],
-                ob['regulator'],
+                ob['regulation'],
                 deadline_display,
                 ", ".join(ob['triggered_by'])
             )
