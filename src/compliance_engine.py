@@ -4,6 +4,12 @@ from datetime import datetime, timedelta
 from rich.console import Console
 from rich.table import Table
 
+# --- NEW: Import the Drafting Engine ---
+try:
+    from drafter import DraftingEngine
+except ImportError:
+    DraftingEngine = None  # Handle case where file doesn't exist yet
+
 console = Console()
 
 class ComplianceEngine:
@@ -49,7 +55,6 @@ class ComplianceEngine:
             is_match = False
 
             # 1. Jurisdiction Match Logic
-            # Since regulations.json now lists every state explicitly, we just check direct membership.
             if reg['jurisdiction'] in affected_locations:
                 is_match = True
             elif reg['jurisdiction'] == "Global": # Catch-all for EU/International if needed
@@ -83,7 +88,9 @@ class ComplianceEngine:
                         "regulator": reg['authority'],
                         "deadline": deadline_str,
                         "urgent": is_urgent,
-                        "triggered_by": list(relevant_data) if relevant_data else ["all"]
+                        "triggered_by": list(relevant_data) if relevant_data else ["all"],
+                        # --- UPDATED: Pass the drafting requirement ---
+                        "requires_consumer_notice": reg.get('requires_consumer_notice', False)
                     })
 
         return obligations
@@ -112,3 +119,35 @@ class ComplianceEngine:
             )
 
         console.print(table)
+
+
+# --- MAIN EXECUTION BLOCK ---
+if __name__ == "__main__":
+    # 1. Setup Sample Data
+    sample_incident = {
+        "id": "INC-TEST-2026",
+        "timestamp": datetime.now().isoformat(),
+        "affected_locations": ["California", "New York"],
+        "data_types": ["ssn", "medical"],
+        "company_name": "TechCorp Logistics",
+        "address": "123 Cyber Way",
+        "city_state": "San Francisco, CA 94105",
+        "hotline": "1-888-555-0199"
+    }
+
+    # 2. Run Analysis
+    engine = ComplianceEngine()
+    obligations = engine.assess_incident(sample_incident)
+    engine.generate_report(obligations)
+
+    # 3. Run Drafter (Step 3 Integration)
+    if DraftingEngine:
+        console.print("\n[bold]📝 Starting Drafting Engine...[/bold]")
+        drafter = DraftingEngine()
+        
+        for ob in obligations:
+            # Only draft if the law requires it
+            if ob.get("requires_consumer_notice"):
+                drafter.draft_consumer_notice(sample_incident, ob)
+    else:
+        console.print("\n[yellow]⚠️  DraftingEngine not found. Create src/drafter.py to enable auto-drafting.[/yellow]")
