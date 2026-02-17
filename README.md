@@ -1,4 +1,4 @@
-# 🚨 Automated Breach Notification Engine
+# Automated Breach Notification Engine
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Compliance](https://img.shields.io/badge/Compliance-GDPR_&_50_States-red)
@@ -14,14 +14,14 @@ Managing a data breach is a race against the clock. Different laws trigger diffe
 
 This engine eliminates the guesswork. It ingests an incident payload, queries a JSON database of **50+ US State & International laws**, and instantly generates the required legal artifacts.
 
-## ✨ Key Features
+## Key Features
 
-* **🌎 Multi-Jurisdictional Logic:** Includes a `regulations.json` database covering **GDPR** and **all 50 US States** (plus DC/Puerto Rico).
-* **⏳ "Doomsday Clock" Calculator:** Automatically calculates the exact date/time you must notify regulators based on the incident timestamp.
-* **📝 Auto-Drafting:** Uses **Jinja2** templates to generate formatted HTML/PDF notification letters tailored to the specific regulator (e.g., "To the California Attorney General").
-* **🧠 Context-Aware:** Distinguishes between "Consumer Notice" vs. "Regulator Notice" and filters based on trigger data (e.g., "Medical" data triggers HIPAA/State Health laws; "SSN" triggers State AGs).
+* **Multi-Jurisdictional Logic:** Includes a regulations.json database covering **GDPR** and **all 50 US States** (plus DC/Puerto Rico).
+* **Deadline Calculator:** Automatically calculates the exact date/time you must notify regulators based on the incident timestamp and urgency.
+* **Auto-Drafting Engine:** Uses **Jinja2** templates to generate formatted HTML notification letters tailored to the specific regulator (e.g., "To the California Attorney General") and incident details.
+* **Context-Aware:** Distinguishes between "Consumer Notice" vs. "Regulator Notice" and filters based on trigger data (e.g., "Medical" data triggers HIPAA/State Health laws; "SSN" triggers State AGs).
 
-## 🛠️ Architecture
+## Architecture
 
 ```mermaid
 graph TD
@@ -35,5 +35,5 @@ graph TD
     F --> G[Generate CLI Report]
     
     G --> H{Drafting Engine}
-    H -->|Load Template| I[Jinja2 HTML]
-    I --> J[Final Notification Letter]
+    H -->|Load Template| I[Jinja2 Template]
+    I --> J[Final HTML Notification Letters]
