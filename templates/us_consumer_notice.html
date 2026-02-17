@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
+        .header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 30px; }
+        .logo { font-weight: bold; font-size: 24px; }
+        .date { margin-bottom: 40px; }
+        h2 { font-size: 18px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
+        .variable { background-color: #fff3cd; padding: 0 4px; } /* Highlights dynamic data */
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">{{ company_name }}</div>
+        <div>{{ company_address }}</div>
+        <div>{{ company_city_state_zip }}</div>
+    </div>
+
+    <div class="date">{{ today_date }}</div>
+
+    <div><strong>Subject: Notice of Data Breach</strong></div>
+
+    <p>Dear Customer,</p>
+
+    <p>{{ company_name }} respects the privacy of your information, which is why we are writing to let you know about a data security incident that involves your personal information.</p>
+
+    <h2>What Happened?</h2>
+    <p>On <span class="variable">{{ discovery_date }}</span>, we discovered a security incident involving unauthorized access to our systems. Our investigation determined that the unauthorized access occurred on or around <span class="variable">{{ breach_date }}</span>.</p>
+
+    <h2>What Information Was Involved?</h2>
+    <p>The following types of your personal information were involved in this incident:</p>
+    <ul>
+        {% for item in data_types %}
+        <li>{{ item | replace('_', ' ') | title }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>What We Are Doing</h2>
+    <p>We take this incident very seriously. Upon discovery, we immediately activated our Incident Response Plan and notified <span class="variable">{{ regulator_name }}</span> as required by {{ jurisdiction }} law. We are working with cybersecurity experts to harden our systems and prevent a recurrence.</p>
+
+    <h2>What You Can Do</h2>
+    <p>We recommend you remain vigilant by reviewing your account statements and credit reports for any unauthorized activity. You may obtain a free copy of your credit report from each of the three major credit reporting agencies once every 12 months.</p>
+
+    <h2>For More Information</h2>
+    <p>If you have questions, please call our dedicated assistance line at <span class="variable">{{ hotline_number }}</span>.</p>
+
+    <p>Sincerely,</p>
+    <p>Chief Information Security Officer<br>{{ company_name }}</p>
+
+</body>
+</html>
