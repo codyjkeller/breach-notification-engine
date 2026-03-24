@@ -1,107 +1,127 @@
-# Automated Breach Notification Engine
+# AI TPRM Risk Engine (Context-Aware)
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Compliance](https://img.shields.io/badge/Compliance-GDPR_&_50_States-red)
-![Automation](https://img.shields.io/badge/Automation-Jinja2_Templates-green)
-![License](https://img.shields.io/badge/License-MIT-orange)
+### Dynamic Vendor Risk Assessment & Compliance Auditing
 
-**A programmable legal orchestrator that calculates regulatory deadlines and auto-drafts breach notifications based on jurisdiction (GDPR, CCPA, NY SHIELD, etc.).**
+![Status](https://img.shields.io/badge/Status-Active-success.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Logic](https://img.shields.io/badge/Logic-Dynamic_Standards-purple.svg)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-Managing a data breach is a race against the clock. Different laws trigger different deadlines:
-* **GDPR:** 72 hours.
-* **Puerto Rico:** 10 days.
-* **Florida:** 30 days.
-* **California:** "Without unreasonable delay."
+---
 
-This engine eliminates the guesswork. It ingests an incident payload, queries a JSON database of **50+ US State & International laws**, and instantly generates the required legal artifacts.
+### Overview
+Legacy TPRM tools use static spreadsheets. This engine uses **"Context-Aware Logic"** and **"Policy-as-Code"** to dynamically generate risk frameworks based on the specific standards required for each vendor (NIST, CJIS, ISO, etc.).
 
-## Key Features
+Instead of checking generic boxes, the system acts as an **Automated GRC Analyst**:
+* **High Assurance Vendor?** -> Dynamically enforces **NIST 800-53 r5** controls.
+* **Law Enforcement Data?** -> Automatically enforces **CJIS Policy v5.9** (FIPS encryption).
+* **AI Scoring:** Uses LLM logic to detect vague answers, critical gaps (MFA, Encryption), and calculates a precise risk score (0-100).
 
-* **Multi-Jurisdictional Logic:** Includes a `regulations.json` database covering **GDPR** and **all 50 US States** (plus DC/Puerto Rico).
-* **Deadline Calculator:** Automatically calculates the exact date/time you must notify regulators based on the incident timestamp and urgency.
-* **Auto-Drafting Engine:** Uses **Jinja2** templates to generate formatted HTML notification letters tailored to the specific regulator (e.g., "To the California Attorney General") and incident details.
-* **Context-Aware:** Distinguishes between "Consumer Notice" vs. "Regulator Notice" and filters based on trigger data (e.g., "Medical" data triggers HIPAA/State Health laws; "SSN" triggers State AGs).
+### Example Output
 
-## Architecture
+```text
+--- AI TPRM Analyzer v3.0 (Scoring Engine) ---
+
+Loading Active Frameworks: ['nist_800_53_r5', 'cjis_policy']
+
+Vendor Response:
+Security: We use DES encryption for legacy support.
+Access: Employees use MFA, contractors use passwords.
+
+[AI Analysis Result]
+[FAIL] Vendor uses legacy encryption (DES). (-25 pts)
+   -> Fix: Require AES-256.
+[FAIL] MFA not enforced for contractors. (-25 pts)
+   -> Fix: Enforce MFA immediately.
+
+==============================
+FINAL SCORE: 50/100
+STATUS: HIGH RISK (Reject)
+==============================
+```
+
+### Feature Highlights
+* **Dynamic Policy Library:** Toggle active frameworks (NIST, CJIS, ISO, CIS) via a simple YAML config.
+* **Weighted Scoring Engine:** Calculates a precise risk score (0-100) based on control weights and critical failures.
+* **AI-Driven Analysis:** Detects vague or non-compliant answers (e.g., "We use proprietary encryption" instead of "AES-256").
+* **Auto-Remediation:** Maps failures to specific fix actions (e.g., "Implement SSO/MFA immediately").
+
+---
+
+### Quick Start
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/codyjkeller/ai-tprm-analyzer.git
+cd ai-tprm-analyzer
+pip install -r requirements.txt
+```
+
+#### 2. Configure Your Standards
+Edit `policies/vendor_standards.yaml` to select which frameworks to enforce:
+```yaml
+active_frameworks:
+  - "nist_800_53_r5"  # High Assurance
+  - "cjis_policy"     # Law Enforcement
+  # - "iso_27001"     # Commercial (Commented out)
+```
+
+#### 3. Run the AI Analyst
+Simulate an AI assessment against your active policy:
+```bash
+python src/analyze_vendor.py
+```
+
+---
+
+### Architecture Logic
 
 ```mermaid
 graph TD
-    A[Incident Payload] --> B{Compliance Engine}
-    C[Regulations.json] --> B
+    A["Vendor Response Text"] --> B{"Load Active Policy"}
+    B -->|Config: NIST| C["Load NIST 800-53 Controls"]
+    B -->|Config: CJIS| D["Load CJIS Policy Controls"]
     
-    B -->|Match Location| D{Determine Jurisdiction}
-    B -->|Match Data Type| E{Determine Triggers}
+    C & D --> E["Compiled Policy Object"]
     
-    D & E --> F[Calculate Deadlines]
-    F --> G[Generate CLI Report]
+    E --> F["AI Scoring Engine"]
+    A --> F
     
-    G --> H{Drafting Engine}
-    H -->|Load Template| I[Jinja2 Template]
-    I --> J[Final HTML Notification Letters]
+    F --> G{"Analysis Logic"}
+    G -->|Critical Flag| H["Score = 0 (Reject)"]
+    G -->|Control Failure| I["Deduct Weighted Points"]
+    G -->|Pass| J["Maintain Score"]
+    
+    H & I & J --> K["Final Risk Score & Report"]
 ```
 
-## Project Structure
+---
+
+### File Structure
 
 ```text
-breach-notification-engine/
-├── config/
-│   └── regulations.json     # Database of 50+ laws and deadlines
+.
 ├── src/
-│   ├── compliance_engine.py # Main Logic: Assesses incidents & calculates deadlines
-│   ├── drafter.py           # Drafting Engine: Generates HTML letters
-│   └── predict.py           # ML Module: Predicts potential fines (Standalone)
-├── templates/
-│   └── us_consumer_notice.html # Base template for consumer notices
-└── requirements.txt
+│   ├── analyze_vendor.py     # Main Engine: Dynamic Policy Loading & AI Scoring
+│   └── analyzer.py           # Legacy Script: Context-Aware Heuristics
+├── policies/
+│   └── vendor_standards.yaml # The "Brain": Library of NIST/CJIS/ISO Controls & Scoring Logic
+├── config/
+│   └── risk_matrix.yaml      # (Deprecated) Old scoring logic
+├── requirements.txt          # Dependencies (Rich, PyYAML, Pandas)
+└── README.md                 # Documentation
 ```
 
-## Installation
+---
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/codyjkeller/breach-notification-engine.git](https://github.com/codyjkeller/breach-notification-engine.git)
-   cd breach-notification-engine
-   ```
+### Disclaimer
 
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+This tool is provided **as-is** for educational and portfolio purposes only. It is **not** a substitute for professional GRC advisory, legal counsel, or a certified compliance assessment.
 
-## Usage
+The author makes no guarantees regarding the accuracy, completeness, or regulatory sufficiency of any output produced by this tool. **Use at your own risk.** The author assumes no liability for decisions made based on this tool's output. See the [MIT License](LICENSE) for full terms.
 
-### 1. Run the Compliance Engine
-To simulate a breach assessment, run the main engine. It includes a sample incident payload (simulating a breach affecting California and New York with medical data).
+---
 
-```bash
-python src/compliance_engine.py
-```
+### License
 
-**Output:**
-* **CLI Report:** A rich text table displaying all legal obligations, deadlines, and urgency status.
-* **Drafted Letters:** HTML files (e.g., `draft_notice_California_20260217.html`) will be generated in the root directory for any jurisdiction requiring consumer notice.
-
-### 2. Run the Fine Predictor (ML)
-To estimate potential financial liability based on historical regulatory actions, run the predictor tool. You will be prompted to enter the number of records exposed and company revenue.
-
-```bash
-python src/predict.py
-```
-
-## License
-
-This project is licensed under the terms of the **MIT License**.
-
-> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction...
-
-See the [LICENSE](LICENSE) file for the full text.
-
-## Legal Disclaimer
-
-**IMPORTANT: FOR EDUCATIONAL AND SIMULATION PURPOSES ONLY.**
-
-This software (`breach-notification-engine`) is a proof-of-concept tool designed to demonstrate the automation of regulatory compliance workflows. It is **not** a substitute for professional legal advice.
-
-* **No Attorney-Client Relationship:** Use of this tool does not create an attorney-client relationship.
-* **Accuracy:** While the `regulations.json` database is based on real statutes, laws change frequently. The deadlines and obligations calculated by this tool may not reflect the most current legal requirements.
-* **Liability:** The authors and contributors are not liable for any direct, indirect, or consequential damages arising from the use of this software. Always consult with a qualified attorney or privacy professional before making decisions regarding data breach notifications.
+[MIT](LICENSE)
