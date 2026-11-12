@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Breach notification deadlines: {{ incident.id or "incident" }}</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; line-height: 1.5; color: #222; max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        h1 { font-size: 24px; margin-bottom: 4px; }
+        h2 { font-size: 18px; margin-top: 36px; border-bottom: 2px solid #222; padding-bottom: 4px; }
+        .sub { color: #555; margin-top: 0; }
+        .summary { background: #f3f5f7; border-left: 6px solid #1f4e79; padding: 14px 18px; margin: 20px 0; }
+        .summary.late { border-left-color: #b00020; }
+        .warning { background: #fff3cd; border-left: 6px solid #b58900; padding: 12px 18px; margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background: #f3f5f7; }
+        .late { color: #b00020; font-weight: bold; }
+        .soon { color: #9a6700; font-weight: bold; }
+        .small { color: #555; font-size: 13px; }
+        footer { margin-top: 40px; color: #555; font-size: 13px; border-top: 1px solid #ddd; padding-top: 12px; }
+    </style>
+</head>
+<body>
+
+<h1>Breach notification deadlines</h1>
+<p class="sub">
+    Incident {{ incident.id or "(no ID)" }}{% if incident.company_name %} &middot; {{ incident.company_name }}{% endif %}
+    &middot; discovered {{ incident.discovery_date or incident.timestamp }}
+    &middot; report created {{ today.isoformat() }}
+</p>
+
+<div class="warning">
+    <strong>This is a planning aid, not legal advice.</strong>
+    It reflects the law data in this tool as of {{ meta.last_updated }}. Laws change and have exceptions that are
+    not shown here. Confirm every deadline with your legal counsel before acting.
+</div>
+
+<div class="summary{% if first and first.days_left < 0 %} late{% endif %}">
+    <strong>In short:</strong>
+    {% if first %}
+        Your first dated deadline is <strong>{{ first.due.isoformat() }}</strong>
+        ({% if first.days_left < 0 %}{{ -first.days_left }} days overdue{% elif first.days_left == 0 %}today{% else %}{{ first.days_left }} days from now{% endif %}):
+        notify {{ first.who }} for {{ first.jurisdiction }}.
+    {% else %}
+        None of the laws that apply set a fixed number of days. Notify without unreasonable delay.
+    {% endif %}
+    There are {{ dated | length }} dated deadline(s), {{ undated | length }} notice(s) with no fixed date,
+    and {{ review | length }} item(s) a person needs to review.
+</div>
+
+{% if dated %}
+<h2>Deadlines with a date (soonest first)</h2>
+<table>
+    <tr><th>Due</th><th>Where</th><th>Notify</th><th>What the law says</th><th>Law</th></tr>
+    {% for o in dated %}
+    <tr>
+        <td class="{% if o.days_left < 0 %}late{% elif o.days_left <= 7 %}soon{% endif %}">
+            {{ o.due.isoformat() }}<br>
+            {% if o.days_left < 0 %}{{ -o.days_left }} days overdue{% elif o.days_left == 0 %}today{% else %}{{ o.days_left }} days left{% endif %}
+        </td>
+        <td>{{ o.jurisdiction }}</td>
+        <td>{{ o.who }}{% if o.status == "Review" %}<br><span class="soon">Review</span>{% endif %}</td>
+        <td>{{ o.timing }}{% if o.notes %}<br><span class="small">{{ o.notes }}</span>{% endif %}</td>
+        <td class="small">{{ o.law }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p class="small">Dates count calendar days from the discovery date unless the law says business days.
+Business-day dates skip weekends but not public holidays. Where a regulator must be told a set number of days
+after residents are notified, the date shown is the latest possible one.</p>
+{% endif %}
+
+{% if undated %}
+<h2>Required, with no fixed number of days</h2>
+<p>These laws say to notify "without unreasonable delay" or similar. Treat them as urgent.</p>
+<table>
+    <tr><th>Where</th><th>Notify</th><th>What the law says</th><th>Law</th></tr>
+    {% for o in undated %}
+    <tr>
+        <td>{{ o.jurisdiction }}</td>
+        <td>{{ o.who }}</td>
+        <td>{{ o.timing }}{% if o.notes %}<br><span class="small">{{ o.notes }}</span>{% endif %}</td>
+        <td class="small">{{ o.law }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if review %}
+<h2>A person needs to review these</h2>
+<p>The tool could not decide these. Do not treat them as "no action needed".</p>
+<table>
+    <tr><th>Where</th><th>Notify</th><th>Why</th><th>Law</th></tr>
+    {% for o in review %}
+    <tr>
+        <td>{{ o.jurisdiction }}</td>
+        <td>{{ o.who }}</td>
+        <td>{{ o.timing }}{% if o.notes %}<br><span class="small">{{ o.notes }}</span>{% endif %}</td>
+        <td class="small">{{ o.law }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if info %}
+<h2>Rules that are not in effect yet</h2>
+<table>
+    <tr><th>Rule</th><th>Status</th></tr>
+    {% for o in info %}
+    <tr><td>{{ o.jurisdiction }}</td><td>{{ o.timing }}</td></tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<h2>What this report does not cover</h2>
+<ul>
+    <li>Whether the event legally counts as a "breach". Many laws excuse encrypted data or incidents with no risk of harm.</li>
+    <li>Notices to credit bureaus, which many states require for larger breaches.</li>
+    <li>Contract terms with customers and vendors, which are often shorter than any law.</li>
+    <li>Industry rules not listed here (for example banking regulators, state insurance laws, NYDFS).</li>
+    <li>Countries other than the United States, apart from the EU's GDPR.</li>
+</ul>
+
+<footer>
+    Law data version {{ meta.version }}, last updated {{ meta.last_updated }}. {{ meta.source_note }}
+    {{ meta.legal_disclaimer }}
+</footer>
+
+</body>
+</html>

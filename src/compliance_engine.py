@@ -1,153 +1,181 @@
+"""Works out who must be notified after a data breach, and by when.
+
+The laws live in config/regulations.json. This file only does three things:
+  1. reads the incident and the laws,
+  2. decides which laws apply,
+  3. counts the days to each deadline.
+"""
 import json
 import os
-from datetime import datetime, timedelta
-from rich.console import Console
-from rich.table import Table
+from datetime import date, datetime, timedelta
 
-# --- NEW: Import the Drafting Engine ---
-try:
-    from drafter import DraftingEngine
-except ImportError:
-    DraftingEngine = None  # Handle case where file doesn't exist yet
+REQUIRED = "Required"
+REVIEW = "Review"
+INFO = "Not yet in effect"
 
-console = Console()
+DEFAULT_REGULATIONS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                   "config", "regulations.json")
+
+
+class IncidentError(ValueError):
+    """The incident file is missing something or contains a value that cannot be used."""
+
+
+def add_days(start, days, business_days=False):
+    """Returns the date `days` after `start`. Business days skip Saturdays and Sundays.
+
+    Public holidays are not skipped. Treat business-day dates as the latest
+    possible date and confirm them yourself.
+    """
+    if not business_days:
+        return start + timedelta(days=days)
+    current = start
+    remaining = days
+    while remaining > 0:
+        current += timedelta(days=1)
+        if current.weekday() < 5:
+            remaining -= 1
+    return current
+
+
+def parse_date(value, field):
+    """Accepts 2026-11-02 or a full timestamp such as 2026-11-02T09:30:00."""
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    try:
+        return datetime.fromisoformat(str(value).strip()).date()
+    except ValueError:
+        raise IncidentError(f'"{field}" must be a date written as YYYY-MM-DD, for example 2026-11-02. '
+                            f"Got: {value!r}") from None
+
 
 class ComplianceEngine:
-    def __init__(self, regulations_path="config/regulations.json"):
-        self.regulations = self._load_regulations(regulations_path)
+    def __init__(self, regulations_path=DEFAULT_REGULATIONS):
+        with open(regulations_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        self.meta = data["meta"]
+        self.states = {s["jurisdiction"].lower(): s for s in data["states"]}
+        self.sector_rules = {r["key"]: r for r in data["sector_rules"]}
+        self.core_types = set(self.meta["core_data_types"])
+        self.known_types = set(self.meta["data_types"])
 
-    def _load_regulations(self, path):
-        """Safely loads the JSON database."""
-        # Handle running from root vs src/
-        if not os.path.exists(path):
-            fallback = "../config/regulations.json"
-            if os.path.exists(fallback):
-                path = fallback
-        
-        try:
-            with open(path, 'r') as f:
-                data = json.load(f)
-                return data['regulations']
-        except FileNotFoundError:
-            console.print(f"[bold red]CRITICAL ERROR: Could not find regulations database at {path}[/bold red]")
-            return []
+    # ---- reading the incident -------------------------------------------------
 
-    def assess_incident(self, incident):
-        """
-        Matches incident data & location to specific laws.
-        Now purely dynamic—no hardcoded state lists.
-        """
+    def read_incident(self, incident):
+        """Checks the incident and returns it in one tidy shape."""
+        discovered = incident.get("discovery_date", incident.get("timestamp"))
+        if not discovered:
+            raise IncidentError('The incident needs a "discovery_date" (the day you found out about the breach).')
+        discovery_date = parse_date(discovered, "discovery_date")
+
+        data_types = [str(t).strip().lower() for t in incident.get("data_types", [])]
+        if not data_types:
+            raise IncidentError('The incident needs at least one entry in "data_types".')
+        unknown = [t for t in data_types if t not in self.known_types]
+        if unknown:
+            raise IncidentError(f"Unknown data type(s): {', '.join(unknown)}. "
+                                f"Use: {', '.join(sorted(self.known_types))}.")
+
+        # Preferred: {"California": 1200}. Older files used a plain list of names.
+        residents = incident.get("affected_residents")
+        if residents is None:
+            residents = {name: None for name in incident.get("affected_locations", [])}
+        if not isinstance(residents, dict):
+            raise IncidentError('"affected_residents" must look like {"California": 1200, "Texas": 300}.')
+        counts = {}
+        for name, count in residents.items():
+            if count is not None and (isinstance(count, bool) or not isinstance(count, int) or count < 0):
+                raise IncidentError(f'The number of affected residents for "{name}" must be a whole number.')
+            if count != 0:
+                counts[str(name).strip()] = count
+
+        sectors = [str(s).strip().lower() for s in incident.get("sectors", [])]
+        unknown = [s for s in sectors if s not in self.sector_rules]
+        if unknown:
+            raise IncidentError(f"Unknown sector(s): {', '.join(unknown)}. "
+                                f"Use: {', '.join(sorted(self.sector_rules))}.")
+        if not counts and not sectors:
+            raise IncidentError('The incident needs "affected_residents", for example {"California": 1200}.')
+
+        return {"discovery_date": discovery_date, "data_types": data_types, "residents": counts, "sectors": sectors}
+
+    # ---- deciding what applies -----------------------------------------------
+
+    def _state_obligations(self, state, count, facts):
+        discovery, data_types = facts["discovery_date"], set(facts["data_types"])
+        covered = data_types & (self.core_types | set(state["also_covers"]))
+        base = {"jurisdiction": state["jurisdiction"], "law": state["law"], "notes": state["notes"]}
+
+        if not covered:
+            # Never drop a state silently: say that a person has to decide.
+            labels = ", ".join(self.meta["data_types"][t] for t in sorted(data_types))
+            return [dict(base, who="Affected individuals", status=REVIEW, due=None,
+                         timing=f"This dataset does not list these data types as covered by this law: {labels}. "
+                                "Confirm with counsel before deciding that no notice is owed.")]
+
+        days = state["individual_notice_days"]
+        individual_due = add_days(discovery, days) if days else None
+        results = [dict(base, who="Affected individuals", status=REQUIRED, due=individual_due,
+                        timing=state["individual_notice_text"])]
+
+        if state["regulator"]:
+            minimum = state["regulator_min_residents"]
+            threshold = state["regulator_threshold_text"]
+            if count is None and minimum > 1:
+                status, timing = REVIEW, (f"Required when: {threshold}. You did not give a number of affected "
+                                          f"residents. {state['regulator_timing_text']}")
+            elif count is not None and count < minimum:
+                return results
+            else:
+                status, timing = REQUIRED, f"{state['regulator_timing_text']} (Applies when: {threshold}.)"
+
+            due = None
+            if state["regulator_days"] is not None:
+                if state["regulator_days_counted_from"] == "discovery":
+                    due = add_days(discovery, state["regulator_days"], state["regulator_business_days"])
+                elif individual_due:
+                    # Latest possible date: counted from the last day residents may be notified.
+                    due = add_days(individual_due, state["regulator_days"], state["regulator_business_days"])
+            results.append(dict(base, who=state["regulator"], status=status, due=due, timing=timing))
+        return results
+
+    def _sector_obligations(self, rule, facts, total_affected):
+        base = {"jurisdiction": rule["name"], "law": rule["law"], "notes": rule["applies_to"]}
+        if rule["status"] != "in_effect":
+            return [dict(base, who="-", status=INFO, due=None, timing=rule["status_text"])]
+        results = []
+        for item in rule["obligations"]:
+            if total_affected is not None and total_affected < item["min_affected"]:
+                continue
+            status = REQUIRED if total_affected is not None or item["min_affected"] <= 1 else REVIEW
+            due = add_days(facts["discovery_date"], item["days"], item["business_days"]) if item["days"] else None
+            results.append(dict(base, who=item["who"], status=status, due=due, timing=item["text"]))
+        return results
+
+    def assess_incident(self, incident, today=None):
+        """Returns a list of obligations, soonest deadline first."""
+        facts = self.read_incident(incident)
+        today = today or date.today()
         obligations = []
-        affected_locations = incident.get('affected_locations', [])
-        stolen_data = incident.get('data_types', [])
-        
-        # Parse timestamp safely
-        try:
-            incident_time = datetime.fromisoformat(incident['timestamp'])
-        except ValueError:
-            incident_time = datetime.now()
 
-        console.print(f"\n🔎 Analyzing Incident: [bold cyan]{incident.get('id', 'Unknown')}[/bold cyan]")
-        console.print(f"   • Data Types: [dim]{', '.join(stolen_data)}[/dim]")
-        console.print(f"   • Locations:  [dim]{', '.join(affected_locations)}[/dim]\n")
+        for name, count in facts["residents"].items():
+            state = self.states.get(name.lower())
+            if state is None:
+                obligations.append({"jurisdiction": name, "law": "-", "notes": "", "who": "Unknown", "status": REVIEW,
+                                    "due": None, "timing": "This place is not in the dataset. Check the spelling "
+                                    "(use full names such as \"New York\"), or ask counsel about its law."})
+                continue
+            obligations.extend(self._state_obligations(state, count, facts))
 
-        for reg in self.regulations:
-            is_match = False
+        known_counts = [c for c in facts["residents"].values() if c is not None]
+        total = sum(known_counts) if len(known_counts) == len(facts["residents"]) and known_counts else None
+        for key in facts["sectors"]:
+            obligations.extend(self._sector_obligations(self.sector_rules[key], facts, total))
 
-            # 1. Jurisdiction Match Logic
-            if reg['jurisdiction'] in affected_locations:
-                is_match = True
-            elif reg['jurisdiction'] == "Global": # Catch-all for EU/International if needed
-                is_match = True
-
-            if is_match:
-                # 2. Data Match (Does the law care about this data?)
-                reg_triggers = set(reg.get('trigger_data', []))
-                stolen_set = set(stolen_data)
-                
-                # Check intersection OR "all" wildcard
-                relevant_data = stolen_set.intersection(reg_triggers)
-                if relevant_data or "all" in reg_triggers:
-                    
-                    # 3. Calculate Deadline
-                    deadline_str = reg.get('deadline_description', "Asap")
-                    is_urgent = False
-                    
-                    if reg.get('deadline_hours', 0) > 0:
-                        deadline_dt = incident_time + timedelta(hours=reg['deadline_hours'])
-                        deadline_str = deadline_dt.strftime("%Y-%m-%d %H:%M")
-                        
-                        # Determine Urgency (< 24h remaining)
-                        time_remaining = deadline_dt - datetime.now()
-                        if time_remaining.total_seconds() < 86400:
-                            is_urgent = True
-
-                    obligations.append({
-                        "regulation": reg['name'],
-                        "jurisdiction": reg['jurisdiction'],
-                        "regulator": reg['authority'],
-                        "deadline": deadline_str,
-                        "urgent": is_urgent,
-                        "triggered_by": list(relevant_data) if relevant_data else ["all"],
-                        # --- UPDATED: Pass the drafting requirement ---
-                        "requires_consumer_notice": reg.get('requires_consumer_notice', False)
-                    })
-
+        for item in obligations:
+            item["days_left"] = (item["due"] - today).days if item["due"] else None
+        # Dated deadlines first (soonest at the top), then the undated ones.
+        obligations.sort(key=lambda o: (o["due"] is None, o["due"] or date.max, o["jurisdiction"], o["who"]))
         return obligations
-
-    def generate_report(self, obligations):
-        if not obligations:
-            console.print("[green]✅ No regulatory notification obligations found.[/green]")
-            return
-
-        table = Table(title="⚖️  Legal Breach Obligations", header_style="bold magenta")
-        table.add_column("Jurisdiction", style="cyan")
-        table.add_column("Regulation", style="dim")
-        table.add_column("Deadline", style="bold red")
-        table.add_column("Trigger Data", style="white")
-
-        for ob in obligations:
-            deadline_display = ob['deadline']
-            if ob['urgent']:
-                deadline_display = f"🚨 {deadline_display}"
-            
-            table.add_row(
-                ob['jurisdiction'],
-                ob['regulation'],
-                deadline_display,
-                ", ".join(ob['triggered_by'])
-            )
-
-        console.print(table)
-
-
-# --- MAIN EXECUTION BLOCK ---
-if __name__ == "__main__":
-    # 1. Setup Sample Data
-    sample_incident = {
-        "id": "INC-TEST-2026",
-        "timestamp": datetime.now().isoformat(),
-        "affected_locations": ["California", "New York"],
-        "data_types": ["ssn", "medical"],
-        "company_name": "TechCorp Logistics",
-        "address": "123 Cyber Way",
-        "city_state": "San Francisco, CA 94105",
-        "hotline": "1-888-555-0199"
-    }
-
-    # 2. Run Analysis
-    engine = ComplianceEngine()
-    obligations = engine.assess_incident(sample_incident)
-    engine.generate_report(obligations)
-
-    # 3. Run Drafter (Step 3 Integration)
-    if DraftingEngine:
-        console.print("\n[bold]📝 Starting Drafting Engine...[/bold]")
-        drafter = DraftingEngine()
-        
-        for ob in obligations:
-            # Only draft if the law requires it
-            if ob.get("requires_consumer_notice"):
-                drafter.draft_consumer_notice(sample_incident, ob)
-    else:
-        console.print("\n[yellow]⚠️  DraftingEngine not found. Create src/drafter.py to enable auto-drafting.[/yellow]")
