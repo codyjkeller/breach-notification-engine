@@ -1,0 +1,3 @@
+# Only for the experimental fine estimator: python src/predict.py
+pandas>=2.1
+scikit-learn>=1.3

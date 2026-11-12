@@ -1,552 +1,1006 @@
 {
   "meta": {
-    "version": "2026.3.1",
-    "last_updated": "2026-03-24",
-    "legal_disclaimer": "For simulation purposes only. Deadlines are calculated from discovery. Consult outside counsel for final determinations."
+    "version": "2026.11.1",
+    "last_updated": "2026-11-12",
+    "covers": "General breach notification laws of the 50 states, the District of Columbia and Puerto Rico, plus five federal and international rules, as understood on the last_updated date.",
+    "legal_disclaimer": "For planning and education only. This is not legal advice. Laws change and contain exceptions this file does not capture. Confirm every deadline with counsel.",
+    "core_data_types": [
+      "ssn",
+      "driver_license",
+      "financial"
+    ],
+    "data_types": {
+      "ssn": "Social Security number",
+      "driver_license": "Driver's license or state ID number",
+      "financial": "Financial account or payment card number with an access code or password",
+      "medical": "Medical or health insurance information",
+      "biometric": "Biometric data (fingerprint, face or retina scan)",
+      "credentials": "Username or e-mail address with a password or security answer",
+      "other": "Anything else"
+    },
+    "sources": [
+      "https://www.ashurstperkinscoie.com/en/insights/2026-us-data-security-law-recap/",
+      "https://clauseaudit.com/data/data-breach-notification-laws-by-state",
+      "https://clearitpricing.com/data-breach-notification-laws-by-state/",
+      "https://www.dwt.com/gcp/states/puerto-rico"
+    ],
+    "source_note": "State entries were compiled from secondary summaries published in October and November 2026 and were not checked line by line against each statute."
   },
-  "regulations": [
+  "states": [
     {
-      "name": "CIRCIA (Critical Infrastructure)",
-      "jurisdiction": "USA (Federal)",
-      "authority": "CISA",
-      "trigger_data": ["all"],
-      "deadline_hours": 72,
-      "deadline_description": "72 hours for covered incidents; 24 hours for ransom payments",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": false,
-      "notes": "Effective May 2026. Mandatory for Critical Infrastructure sectors."
-    },
-    {
-      "name": "GDPR (EU)",
-      "jurisdiction": "EU",
-      "authority": "Data Protection Commission (DPC)",
-      "trigger_data": ["all"],
-      "deadline_hours": 72,
-      "deadline_description": "72 Hours",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": "high_risk_only"
-    },
-    {
-      "name": "Puerto Rico Data Breach Notification",
-      "jurisdiction": "Puerto Rico",
-      "authority": "Department of Consumer Affairs",
-      "trigger_data": ["tax_id", "financial"],
-      "deadline_hours": 240,
-      "deadline_description": "10 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Vermont Security Breach Notice Act",
-      "jurisdiction": "Vermont",
-      "authority": "Vermont Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 336,
-      "deadline_description": "14 Business Days (to AG)",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "California Consumer Privacy Act (CCPA) / SB 446",
-      "jurisdiction": "California",
-      "authority": "California Attorney General & CPPA",
-      "trigger_data": ["ssn", "driver_license", "financial", "biometric", "medical", "automated_license_plate"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days (Strict Deadline effective 2026)",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true,
-      "threshold": "Notice to AG required if >500 residents affected"
-    },
-    {
-      "name": "Colorado Consumer Protection Act",
-      "jurisdiction": "Colorado",
-      "authority": "Colorado Attorney General",
-      "trigger_data": ["ssn", "driver_license", "biometric", "medical"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Florida Information Protection Act (FIPA)",
-      "jurisdiction": "Florida",
-      "authority": "Florida Department of Legal Affairs",
-      "trigger_data": ["ssn", "driver_license", "medical", "financial"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Maine Notice of Risk to Personal Data Act",
-      "jurisdiction": "Maine",
-      "authority": "Maine Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days (approximate)",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "New York SHIELD Act",
-      "jurisdiction": "New York",
-      "authority": "NY Attorney General & DFS",
-      "trigger_data": ["ssn", "biometric", "account_password", "medical", "health_insurance"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days (Updated Standard)",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Washington Data Breach Notification Law",
-      "jurisdiction": "Washington",
-      "authority": "Washington Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 720,
-      "deadline_description": "30 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Alabama Data Breach Notification Act",
       "jurisdiction": "Alabama",
-      "authority": "Alabama Attorney General",
-      "trigger_data": ["ssn", "medical", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Ala. Code §§ 8-38-1 to 8-38-12",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of determining a breach is reasonably likely to cause substantial harm.",
+      "regulator": "Alabama Attorney General",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 residents notified",
+      "regulator_days": 45,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 45 days.",
+      "also_covers": [
+        "medical",
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "Arizona Notification of Breach",
-      "jurisdiction": "Arizona",
-      "authority": "Arizona Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Maryland Personal Information Protection Act",
-      "jurisdiction": "Maryland",
-      "authority": "Maryland Attorney General",
-      "trigger_data": ["ssn", "tax_id", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "New Mexico Data Breach Notification Act",
-      "jurisdiction": "New Mexico",
-      "authority": "New Mexico Attorney General",
-      "trigger_data": ["ssn", "biometric", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Ohio Security Breach Notification Act",
-      "jurisdiction": "Ohio",
-      "authority": "Ohio Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Oregon Consumer Information Protection Act",
-      "jurisdiction": "Oregon",
-      "authority": "Oregon Attorney General",
-      "trigger_data": ["ssn", "passport", "biometric"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Rhode Island Identity Theft Protection Act",
-      "jurisdiction": "Rhode Island",
-      "authority": "Rhode Island Attorney General",
-      "trigger_data": ["ssn", "financial", "medical"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Tennessee Data Breach Notification Statute",
-      "jurisdiction": "Tennessee",
-      "authority": "Tennessee Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Wisconsin Data Breach Notification Law",
-      "jurisdiction": "Wisconsin",
-      "authority": "Dept of Agriculture, Trade & Consumer Protection",
-      "trigger_data": ["ssn", "biometric", "financial"],
-      "deadline_hours": 1080,
-      "deadline_description": "45 Days",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Connecticut Data Privacy Act",
-      "jurisdiction": "Connecticut",
-      "authority": "Connecticut Attorney General",
-      "trigger_data": ["ssn", "tax_id", "biometric"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Delaware Computer Security Breaches Act",
-      "jurisdiction": "Delaware",
-      "authority": "Delaware Attorney General",
-      "trigger_data": ["ssn", "passport", "medical"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Louisiana Database Security Breach Notification Law",
-      "jurisdiction": "Louisiana",
-      "authority": "Louisiana Attorney General",
-      "trigger_data": ["ssn", "passport", "biometric"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Oklahoma Security Breach Notification Act (2026 Update)",
-      "jurisdiction": "Oklahoma",
-      "authority": "Oklahoma Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days (Regulator Notification for >500)",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "South Dakota Breach Notification Law",
-      "jurisdiction": "South Dakota",
-      "authority": "South Dakota Attorney General",
-      "trigger_data": ["ssn", "health", "financial"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
-    },
-    {
-      "name": "Texas Identity Theft Enforcement and Protection Act",
-      "jurisdiction": "Texas",
-      "authority": "Texas Attorney General",
-      "trigger_data": ["ssn", "medical", "financial"],
-      "deadline_hours": 1440,
-      "deadline_description": "60 Days",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true,
-      "threshold": "Notice to AG required if >250 residents affected"
-    },
-    {
-      "name": "Alaska Personal Information Protection Act",
       "jurisdiction": "Alaska",
-      "authority": "Alaska Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Alaska Stat. §§ 45.48.010 to 45.48.090",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expeditious time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": "Written notice to the Attorney General is required only if you decide that no notice to residents is needed."
     },
     {
-      "name": "Arkansas Personal Information Protection Act",
+      "jurisdiction": "Arizona",
+      "law": "Ariz. Rev. Stat. §§ 18-551 to 18-552",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of determining a breach occurred.",
+      "regulator": "Arizona Attorney General and Arizona Department of Homeland Security",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 residents notified",
+      "regulator_days": 45,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 45 days.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Arkansas",
-      "authority": "Arkansas Attorney General",
-      "trigger_data": ["ssn", "medical", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay (45 days recommended)",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Ark. Code Ann. §§ 4-110-101 to 4-110-108",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "Arkansas Attorney General",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 residents affected",
+      "regulator_days": 45,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 45 days, or with the notice to residents, whichever is first.",
+      "also_covers": [
+        "medical",
+        "biometric"
+      ],
+      "notes": ""
     },
     {
-      "name": "District of Columbia Consumer Security Breach Notification Act",
+      "jurisdiction": "California",
+      "law": "Cal. Civ. Code § 1798.82",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 calendar days of discovery or notification of the breach (SB 446, effective January 1, 2026).",
+      "regulator": "California Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents notified",
+      "regulator_days": 15,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Sample notice within 15 calendar days of notifying residents.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": "The 30-day deadline is new for 2026. Delay is allowed only for law enforcement needs or to determine scope and restore system integrity."
+    },
+    {
+      "jurisdiction": "Colorado",
+      "law": "Colo. Rev. Stat. § 6-1-716",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 days of determining a breach occurred.",
+      "regulator": "Colorado Attorney General",
+      "regulator_min_residents": 500,
+      "regulator_threshold_text": "500 or more residents",
+      "regulator_days": 30,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 30 days.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Connecticut",
+      "law": "Conn. Gen. Stat. § 36a-701b",
+      "individual_notice_days": 60,
+      "individual_notice_text": "Within 60 days of discovery.",
+      "regulator": "Connecticut Attorney General",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "No later than the notice to residents.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Delaware",
+      "law": "6 Del. C. §§ 12B-101 to 12B-104",
+      "individual_notice_days": 60,
+      "individual_notice_text": "Within 60 days of determining a breach occurred.",
+      "regulator": "Delaware Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "No later than the notice to residents, and within 60 days of determining the breach.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": "HB 381 (effective September 2, 2026) added a 60-day Attorney General deadline and narrowed the exemption for HIPAA- and GLBA-regulated entities, which may now owe Attorney General notice. Commentators disagree on whether it also requires reporting breaches of 500 or fewer residents. Confirm with counsel."
+    },
+    {
       "jurisdiction": "District of Columbia",
-      "authority": "DC Attorney General",
-      "trigger_data": ["ssn", "tax_id", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "D.C. Code §§ 28-3851 to 28-3853",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "DC Attorney General",
+      "regulator_min_residents": 50,
+      "regulator_threshold_text": "50 or more residents",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "No later than the notice to residents.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": "D.C. Law 26-187 (effective September 26, 2026) made civil penalties for violations mandatory."
     },
     {
-      "name": "Georgia Personal Identity Protection Act",
+      "jurisdiction": "Florida",
+      "law": "Fla. Stat. § 501.171",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 days of determining a breach occurred (15 more days possible for good cause).",
+      "regulator": "Florida Department of Legal Affairs",
+      "regulator_min_residents": 500,
+      "regulator_threshold_text": "500 or more residents",
+      "regulator_days": 30,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 30 days.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Georgia",
-      "authority": "Georgia Attorney General (via Credit Reporting Agencies)",
-      "trigger_data": ["ssn", "driver_license", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "O.C.G.A. §§ 10-1-910 to 10-1-915",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": "Narrow scope: applies to information brokers and data collectors. Confirm whether it covers your organization."
     },
     {
-      "name": "Hawaii Security Breach of Personal Information",
       "jurisdiction": "Hawaii",
-      "authority": "Hawaii Office of Consumer Protection",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Haw. Rev. Stat. ch. 487N",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Hawaii Office of Consumer Protection",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 persons notified at one time",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Without unreasonable delay.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Idaho Identity Theft Statute",
       "jurisdiction": "Idaho",
-      "authority": "Idaho Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Idaho Code §§ 28-51-104 to 28-51-107",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": "Regulator notice applies to public agencies only."
     },
     {
-      "name": "Illinois Personal Information Protection Act",
       "jurisdiction": "Illinois",
-      "authority": "Illinois Attorney General",
-      "trigger_data": ["ssn", "medical", "biometric", "username"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "815 ILCS 530",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "Illinois Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "Indiana Disclosure of Security Breach Act",
       "jurisdiction": "Indiana",
-      "authority": "Indiana Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Ind. Code 24-4.9",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Without unreasonable delay, no later than 45 days after discovery.",
+      "regulator": "Indiana Attorney General",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Iowa Personal Information Security Breach Protection",
       "jurisdiction": "Iowa",
-      "authority": "Iowa Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Iowa Code ch. 715C",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expeditious manner possible, without unreasonable delay.",
+      "regulator": "Iowa Attorney General (Consumer Protection Division)",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": 5,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": true,
+      "regulator_timing_text": "Within 5 business days after notifying residents.",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": ""
     },
     {
-      "name": "Kansas Consumer Information Protection Act",
       "jurisdiction": "Kansas",
-      "authority": "Kansas Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "K.S.A. 50-7a01 to 50-7a04",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Kentucky Data Breach Notification",
       "jurisdiction": "Kentucky",
-      "authority": "Kentucky Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "KRS 365.732",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": "Regulator notice applies to public agencies only."
     },
     {
-      "name": "Massachusetts Data Breach Notification Law (201 CMR 17.00)",
+      "jurisdiction": "Louisiana",
+      "law": "La. R.S. 51:3074; La. Admin. Code tit. 16, pt. III, § 701",
+      "individual_notice_days": 60,
+      "individual_notice_text": "Within 60 days of discovery.",
+      "regulator": "Louisiana Attorney General (Consumer Protection Section)",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 10,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 10 days of notifying residents.",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Maine",
+      "law": "10 M.R.S. §§ 1346 to 1350-B",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 days of becoming aware of the breach and identifying its scope.",
+      "regulator": "Maine Department of Professional and Financial Regulation, or the Attorney General if you are not regulated by the Department",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Maryland",
+      "law": "Md. Code, Com. Law §§ 14-3501 to 14-3508",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of discovering or being notified of the breach.",
+      "regulator": "Maryland Attorney General",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Before notifying residents.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Massachusetts",
-      "authority": "MA Attorney General & Office of Consumer Affairs",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Mass. Gen. Laws ch. 93H",
+      "individual_notice_days": null,
+      "individual_notice_text": "As soon as practicable, without unreasonable delay.",
+      "regulator": "Massachusetts Attorney General and Office of Consumer Affairs and Business Regulation",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "As soon as practicable.",
+      "also_covers": [],
+      "notes": "Massachusetts restricts what a resident notice may say about the nature of the breach. Have counsel review the letter."
     },
     {
-      "name": "Michigan Identity Theft Protection Act",
       "jurisdiction": "Michigan",
-      "authority": "Michigan Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Mich. Comp. Laws §§ 445.61 to 445.79d",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Minnesota Consumer Protection",
       "jurisdiction": "Minnesota",
-      "authority": "Minnesota Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Minn. Stat. § 325E.61",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Mississippi Data Breach Notification",
       "jurisdiction": "Mississippi",
-      "authority": "Mississippi Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Miss. Code Ann. § 75-24-29",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Missouri Data Breach Notification Law",
       "jurisdiction": "Missouri",
-      "authority": "Missouri Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Mo. Rev. Stat. § 407.1500",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Missouri Attorney General",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 consumers notified at one time",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Without unreasonable delay.",
+      "also_covers": [
+        "medical"
+      ],
+      "notes": ""
     },
     {
-      "name": "Montana Impediment to Identity Theft Act",
       "jurisdiction": "Montana",
-      "authority": "Montana Attorney General",
-      "trigger_data": ["ssn", "financial", "medical"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Mont. Code Ann. §§ 30-14-1701 to 30-14-1704",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Montana Attorney General (Office of Consumer Protection)",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "At the same time as the notice to residents.",
+      "also_covers": [
+        "medical"
+      ],
+      "notes": ""
     },
     {
-      "name": "Nebraska Financial Data Protection and Consumer Notification",
       "jurisdiction": "Nebraska",
-      "authority": "Nebraska Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Neb. Rev. Stat. §§ 87-801 to 87-808",
+      "individual_notice_days": null,
+      "individual_notice_text": "As soon as possible, without unreasonable delay.",
+      "regulator": "Nebraska Attorney General",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "No later than the notice to residents.",
+      "also_covers": [
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "Nevada Security of Personal Information",
       "jurisdiction": "Nevada",
-      "authority": "Nevada Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Nev. Rev. Stat. §§ 603A.010 to 603A.290",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [
+        "medical",
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "New Hampshire Right to Privacy Act",
       "jurisdiction": "New Hampshire",
-      "authority": "New Hampshire Regulator",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "N.H. Rev. Stat. Ann. §§ 359-C:19 to 359-C:21",
+      "individual_notice_days": null,
+      "individual_notice_text": "As soon as possible.",
+      "regulator": "New Hampshire Attorney General, or your primary regulator",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "New Jersey Identity Theft Prevention Act",
       "jurisdiction": "New Jersey",
-      "authority": "New Jersey Attorney General (State Police)",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "N.J. Stat. Ann. §§ 56:8-161 to 56:8-166",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "New Jersey Division of State Police",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": 0,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Before notifying customers.",
+      "also_covers": [
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "North Carolina Identity Theft Protection Act",
+      "jurisdiction": "New Mexico",
+      "law": "N.M. Stat. Ann. §§ 57-12C-1 to 57-12C-12",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 calendar days of discovery.",
+      "regulator": "New Mexico Attorney General",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 residents",
+      "regulator_days": 45,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 45 calendar days.",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "New York",
+      "law": "N.Y. Gen. Bus. Law § 899-aa",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 days of discovering the breach.",
+      "regulator": "New York Attorney General, Department of State, and Division of State Police",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach affecting residents",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": "Entities regulated by the NY Department of Financial Services must also notify DFS."
+    },
+    {
       "jurisdiction": "North Carolina",
-      "authority": "North Carolina Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "N.C. Gen. Stat. §§ 75-60 to 75-66",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "North Carolina Attorney General (Consumer Protection Division)",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Without unreasonable delay.",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": ""
     },
     {
-      "name": "North Dakota Data Breach Notification Law",
       "jurisdiction": "North Dakota",
-      "authority": "North Dakota Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "N.D. Cent. Code §§ 51-30-01 to 51-30-07",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "North Dakota Attorney General",
+      "regulator_min_residents": 251,
+      "regulator_threshold_text": "More than 250 individuals",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical"
+      ],
+      "notes": ""
     },
     {
-      "name": "Pennsylvania Breach of Personal Information Notification Act",
+      "jurisdiction": "Ohio",
+      "law": "Ohio Rev. Code § 1349.19",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of discovery.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Oklahoma",
+      "law": "24 Okla. Stat. §§ 161 to 166",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Oklahoma Attorney General",
+      "regulator_min_residents": 500,
+      "regulator_threshold_text": "500 or more residents",
+      "regulator_days": 60,
+      "regulator_days_counted_from": "individual_notice",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 60 days of notifying residents (SB 626, effective January 1, 2026).",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": "SB 626 (effective January 1, 2026) added Attorney General notice and widened the definition of personal information."
+    },
+    {
+      "jurisdiction": "Oregon",
+      "law": "Or. Rev. Stat. §§ 646A.600 to 646A.628",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of discovery or notification.",
+      "regulator": "Oregon Attorney General",
+      "regulator_min_residents": 251,
+      "regulator_threshold_text": "More than 250 consumers",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Pennsylvania",
-      "authority": "Pennsylvania Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "73 P.S. §§ 2301 to 2330",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Pennsylvania Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical",
+        "credentials"
+      ],
+      "notes": ""
     },
     {
-      "name": "South Carolina Financial Identity Fraud and Identity Theft Protection Act",
+      "jurisdiction": "Rhode Island",
+      "law": "R.I. Gen. Laws §§ 11-49.3-1 to 11-49.3-7",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 calendar days of confirming the breach.",
+      "regulator": "Rhode Island Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [
+        "medical",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "South Carolina",
-      "authority": "South Carolina Dept of Consumer Affairs",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "S.C. Code Ann. § 39-1-90",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "South Carolina Department of Consumer Affairs",
+      "regulator_min_residents": 1001,
+      "regulator_threshold_text": "More than 1,000 persons notified at one time",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Without unreasonable delay.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Utah Protection of Personal Information Act",
+      "jurisdiction": "South Dakota",
+      "law": "S.D. Codified Laws §§ 22-40-19 to 22-40-26",
+      "individual_notice_days": 60,
+      "individual_notice_text": "Within 60 days of discovery or notification.",
+      "regulator": "South Dakota Attorney General",
+      "regulator_min_residents": 251,
+      "regulator_threshold_text": "More than 250 residents",
+      "regulator_days": 60,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 60 days of discovery or notification.",
+      "also_covers": [
+        "medical",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Tennessee",
+      "law": "Tenn. Code Ann. § 47-18-2107",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of discovery or notification.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Texas",
+      "law": "Tex. Bus. & Com. Code § 521.053",
+      "individual_notice_days": 60,
+      "individual_notice_text": "Within 60 days of determining the breach occurred.",
+      "regulator": "Texas Attorney General",
+      "regulator_min_residents": 250,
+      "regulator_threshold_text": "250 or more residents",
+      "regulator_days": 30,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 30 days, using the Attorney General's electronic form.",
+      "also_covers": [
+        "medical"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Utah",
-      "authority": "Utah Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Utah Code §§ 13-44-201 to 13-44-202",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": "Utah Attorney General and Utah Cyber Center",
+      "regulator_min_residents": 500,
+      "regulator_threshold_text": "500 or more residents",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Timing not confirmed in this dataset. See the statute.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Virginia Personal Information Breach Notification Act",
+      "jurisdiction": "Vermont",
+      "law": "9 V.S.A. § 2435",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within 45 days of discovery or notification.",
+      "regulator": "Vermont Attorney General, or the Department of Financial Regulation if it regulates you",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach",
+      "regulator_days": 14,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": true,
+      "regulator_timing_text": "Preliminary notice within 14 business days.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": "Act 138 of 2026 adds a separate breach notice regime for data brokers. Its related provisions take effect January 1, 2027."
+    },
+    {
       "jurisdiction": "Virginia",
-      "authority": "Virginia Attorney General",
-      "trigger_data": ["ssn", "financial", "passport"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": true,
-      "requires_consumer_notice": true
+      "law": "Va. Code Ann. § 18.2-186.6",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": "Virginia Attorney General",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach requiring notice",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "Without unreasonable delay.",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "West Virginia Breach of Security of Consumer Information",
+      "jurisdiction": "Washington",
+      "law": "RCW 19.255.010",
+      "individual_notice_days": 30,
+      "individual_notice_text": "Within 30 calendar days of discovery.",
+      "regulator": "Washington Attorney General",
+      "regulator_min_residents": 501,
+      "regulator_threshold_text": "More than 500 residents",
+      "regulator_days": 30,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within 30 days.",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "West Virginia",
-      "authority": "West Virginia Attorney General",
-      "trigger_data": ["ssn", "financial"],
-      "deadline_hours": 0,
-      "deadline_description": "Without unreasonable delay",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "W. Va. Code §§ 46A-2A-101 to 46A-2A-105",
+      "individual_notice_days": null,
+      "individual_notice_text": "Without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [],
+      "notes": ""
     },
     {
-      "name": "Wyoming Consumer Protection Act",
+      "jurisdiction": "Wisconsin",
+      "law": "Wis. Stat. § 134.98",
+      "individual_notice_days": 45,
+      "individual_notice_text": "Within a reasonable time, not more than 45 days after learning of the breach.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [
+        "biometric"
+      ],
+      "notes": ""
+    },
+    {
       "jurisdiction": "Wyoming",
-      "authority": "Wyoming Attorney General",
-      "trigger_data": ["ssn", "financial", "biometric"],
-      "deadline_hours": 0,
-      "deadline_description": "Most expedient time possible",
-      "requires_regulator_notice": false,
-      "requires_consumer_notice": true
+      "law": "Wyo. Stat. Ann. §§ 40-12-501 to 40-12-509",
+      "individual_notice_days": null,
+      "individual_notice_text": "Most expedient time possible, without unreasonable delay.",
+      "regulator": null,
+      "regulator_min_residents": null,
+      "regulator_threshold_text": "",
+      "regulator_days": null,
+      "regulator_days_counted_from": null,
+      "regulator_business_days": false,
+      "regulator_timing_text": "",
+      "also_covers": [
+        "medical",
+        "biometric",
+        "credentials"
+      ],
+      "notes": ""
+    },
+    {
+      "jurisdiction": "Puerto Rico",
+      "law": "10 L.P.R.A. §§ 4051 to 4055",
+      "individual_notice_days": null,
+      "individual_notice_text": "As expeditiously as possible.",
+      "regulator": "Puerto Rico Department of Consumer Affairs (DACO)",
+      "regulator_min_residents": 1,
+      "regulator_threshold_text": "Any breach",
+      "regulator_days": 10,
+      "regulator_days_counted_from": "discovery",
+      "regulator_business_days": false,
+      "regulator_timing_text": "Within a non-extendable 10 days of detecting the breach.",
+      "also_covers": [],
+      "notes": "Data types covered beyond the core set were not checked for this dataset."
+    }
+  ],
+  "sector_rules": [
+    {
+      "key": "healthcare",
+      "name": "HIPAA Breach Notification Rule",
+      "law": "45 CFR §§ 164.400 to 164.414",
+      "applies_to": "HIPAA covered entities and business associates, for unsecured protected health information.",
+      "status": "in_effect",
+      "obligations": [
+        {
+          "who": "Affected individuals",
+          "days": 60,
+          "business_days": false,
+          "min_affected": 1,
+          "text": "Without unreasonable delay, no later than 60 calendar days after discovery."
+        },
+        {
+          "who": "U.S. Department of Health and Human Services (HHS)",
+          "days": 60,
+          "business_days": false,
+          "min_affected": 500,
+          "text": "For 500 or more individuals: at the same time as individual notice, no later than 60 days after discovery. Smaller breaches are reported to HHS annually."
+        },
+        {
+          "who": "Prominent media outlets",
+          "days": 60,
+          "business_days": false,
+          "min_affected": 501,
+          "text": "Required when more than 500 residents of one state or jurisdiction are affected. Check the count per state."
+        }
+      ]
+    },
+    {
+      "key": "public_company",
+      "name": "SEC cybersecurity incident disclosure (Form 8-K, Item 1.05)",
+      "law": "17 CFR § 229.106; Form 8-K Item 1.05",
+      "applies_to": "Companies that file reports with the SEC.",
+      "status": "in_effect",
+      "obligations": [
+        {
+          "who": "U.S. Securities and Exchange Commission (public filing)",
+          "days": 4,
+          "business_days": true,
+          "min_affected": 0,
+          "text": "Within 4 business days after the company determines the incident is material. The date shown assumes materiality was determined on the discovery date."
+        }
+      ]
+    },
+    {
+      "key": "financial_institution",
+      "name": "FTC Safeguards Rule notification",
+      "law": "16 CFR § 314.4(j)",
+      "applies_to": "Non-bank financial institutions under the FTC's jurisdiction (for example lenders, dealers, tax preparers).",
+      "status": "in_effect",
+      "obligations": [
+        {
+          "who": "Federal Trade Commission",
+          "days": 30,
+          "business_days": false,
+          "min_affected": 500,
+          "text": "Within 30 days of discovery when unencrypted information of 500 or more consumers is involved."
+        }
+      ]
+    },
+    {
+      "key": "eu_residents",
+      "name": "EU General Data Protection Regulation (GDPR)",
+      "law": "GDPR Articles 33 and 34",
+      "applies_to": "Organizations subject to GDPR when personal data of people in the EU is involved.",
+      "status": "in_effect",
+      "obligations": [
+        {
+          "who": "Your lead EU data protection authority",
+          "days": 3,
+          "business_days": false,
+          "min_affected": 0,
+          "text": "Within 72 hours of becoming aware, unless the breach is unlikely to result in a risk to individuals. The date shown is 3 days after discovery; count the exact hours yourself."
+        },
+        {
+          "who": "Affected individuals",
+          "days": null,
+          "business_days": false,
+          "min_affected": 0,
+          "text": "Without undue delay, when the breach is likely to result in a high risk to them."
+        }
+      ]
+    },
+    {
+      "key": "critical_infrastructure",
+      "name": "CIRCIA cyber incident reporting",
+      "law": "Cyber Incident Reporting for Critical Infrastructure Act of 2022",
+      "applies_to": "Critical infrastructure entities, once the rule is final.",
+      "status": "not_in_effect",
+      "status_text": "Not yet required. CISA sent the final rule for White House review on October 1, 2026 and it had not been published as of November 12, 2026. When it takes effect it is expected to require reports to CISA within 72 hours of a covered incident and 24 hours of a ransom payment. Check cisa.gov/circia.",
+      "obligations": []
     }
   ]
 }

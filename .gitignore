@@ -216,3 +216,7 @@ draft_notice_*.html
 
 # Ignore Windows annoyances
 Thumbs.db
+
+# Generated reports and letters
+output/
+draft_notice_*.html

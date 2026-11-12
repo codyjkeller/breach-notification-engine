@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <title>DRAFT - Notice of Data Breach</title>
     <style>
         body { font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
         .header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 30px; }
@@ -8,9 +10,16 @@
         .date { margin-bottom: 40px; }
         h2 { font-size: 18px; text-transform: uppercase; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
         .variable { background-color: #fff3cd; padding: 0 4px; } /* Highlights dynamic data */
+        .draft { background-color: #fff3cd; border: 1px solid #b58900; padding: 10px 14px; margin: 20px 0; font-family: Arial, sans-serif; font-size: 14px; }
     </style>
 </head>
 <body>
+
+    <div class="draft">
+        <strong>DRAFT. Do not send without legal review.</strong> Highlighted text was filled in automatically.
+        Some states require specific wording, contact details for credit bureaus and regulators, or an offer of
+        credit monitoring, and Massachusetts limits what may be said about the incident. Remove this box before sending.
+    </div>
 
     <div class="header">
         <div class="logo">{{ company_name }}</div>
@@ -33,12 +42,12 @@
     <p>The following types of your personal information were involved in this incident:</p>
     <ul>
         {% for item in data_types %}
-        <li>{{ item | replace('_', ' ') | title }}</li>
+        <li>{{ item }}</li>
         {% endfor %}
     </ul>
 
     <h2>What We Are Doing</h2>
-    <p>We take this incident very seriously. Upon discovery, we immediately activated our Incident Response Plan and notified <span class="variable">{{ regulator_name }}</span> as required by {{ jurisdiction }} law. We are working with cybersecurity experts to harden our systems and prevent a recurrence.</p>
+    <p>We take this incident very seriously. Upon discovery, we immediately activated our Incident Response Plan. <span class="variable">[Describe the regulators and law enforcement you have notified, if any.]</span> We are working with cybersecurity experts to harden our systems and prevent a recurrence.</p>
 
     <h2>What You Can Do</h2>
     <p>We recommend you remain vigilant by reviewing your account statements and credit reports for any unauthorized activity. You may obtain a free copy of your credit report from each of the three major credit reporting agencies once every 12 months.</p>
